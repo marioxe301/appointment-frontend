@@ -1,6 +1,6 @@
 import { Button, DatePicker, Form, Input, Modal, Space, Typography } from "antd";
 import moment from "moment";
-import { Dispatch, SetStateAction, useContext, useEffect } from "react";
+import { Dispatch, FC, SetStateAction, useContext, useEffect } from "react";
 import { DataContext } from "../context/DataContext";
 import { AppointmentFormFields } from "../models/appointment";
 import { onFinishFailed, disableDays, disableHours, onFinishUpdateForm } from "../services/FunctionHandlers";
@@ -8,9 +8,9 @@ import { onFinishFailed, disableDays, disableHours, onFinishUpdateForm } from ".
 interface props {
     isVisible: boolean,
     setVisible: Dispatch<SetStateAction<boolean>>
-};
+}
 
-export const AppointmentEdit = ({isVisible,setVisible}:props) =>{
+export const AppointmentEdit: FC<props> = ({isVisible,setVisible}) =>{
     const [form] = Form.useForm();
     const {state,dispatch} = useContext(DataContext);
 

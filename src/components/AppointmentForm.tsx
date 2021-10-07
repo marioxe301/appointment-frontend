@@ -1,11 +1,11 @@
-import { useContext, useState } from 'react';
+import { FC, useContext, useState } from 'react';
 import {Button, Modal, Typography,Input, Form, DatePicker, Space} from 'antd';
 import {PlusOutlined} from '@ant-design/icons';
 import { disableDays, disableHours, onFinishAddForm, onFinishFailed } from '../services/FunctionHandlers';
 import { DataContext } from '../context/DataContext';
 
 
-export const AppointmentForm = () => {
+export const AppointmentForm: FC = () => {
     const [visible,setVisible] = useState<boolean>(false);
     const {state, dispatch}= useContext(DataContext);
     const [form] = Form.useForm();

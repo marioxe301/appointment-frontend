@@ -1,6 +1,7 @@
 import { Layout } from 'antd';
+import { FC } from 'react';
 
-export const Header = () =>{
+export const Header:FC = () =>{
     return(
         <Layout.Header style={{
           color: 'white',

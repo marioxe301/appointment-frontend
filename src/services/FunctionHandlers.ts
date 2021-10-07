@@ -1,15 +1,16 @@
 import { message, FormInstance } from "antd";
 import axios from "axios";
+import { ValidateErrorEntity } from "rc-field-form/lib/interface";
 import { Dispatch, SetStateAction } from "react";
-import { AppointmentURL } from "../context/DataProvider";
 import { AppointmentAction } from "../context/mainReducer";
 import { Appointment, AppointmentFormFields, AppointmentView } from "../models/appointment";
 import { range } from "./ArrayUtils";
 
+export const ApiUrl= "https://appointment-api-m.herokuapp.com/appointment";
 
 export const disableDays = (current: moment.Moment): boolean =>{
     return current.day() === 6 || current.day() === 0;
-}
+};
 
 
 export const disableHours = (): Array<number> =>{
@@ -17,7 +18,7 @@ export const disableHours = (): Array<number> =>{
 };
 
 
-export const onFinishAddForm = async (formFields: AppointmentFormFields, form: FormInstance<any>, dispatch: Dispatch<AppointmentAction>, setVisible: Dispatch<SetStateAction<boolean>> ) =>{
+export const onFinishAddForm = async (formFields: AppointmentFormFields, form: FormInstance<any>, dispatch: Dispatch<AppointmentAction>, setVisible: Dispatch<SetStateAction<boolean>> ): Promise<void> =>{
     dispatch({type:'apiCallInit'});
     const body: Appointment ={
         title: formFields.title,
@@ -26,7 +27,7 @@ export const onFinishAddForm = async (formFields: AppointmentFormFields, form: F
     }
 
     try{
-        const response = await axios.post<any>(AppointmentURL,body);
+        const response = await axios.post<any>(ApiUrl,body);
         const newAppointmentElement = response.data as AppointmentView;
         dispatch({type:'addAppointment',payload: newAppointmentElement});
         message.success('Appointment Added');
@@ -41,7 +42,7 @@ export const onFinishAddForm = async (formFields: AppointmentFormFields, form: F
 };
 
 
-export const onFinishUpdateForm = async (docId: string,formFields: AppointmentFormFields,form: FormInstance<any>,dispatch: Dispatch<AppointmentAction>, setVisible: Dispatch<SetStateAction<boolean>>) =>{
+export const onFinishUpdateForm = async (docId: string,formFields: AppointmentFormFields,form: FormInstance<any>,dispatch: Dispatch<AppointmentAction>, setVisible: Dispatch<SetStateAction<boolean>>): Promise<void> =>{
     dispatch({type:'apiCallInit'});
     const body: Appointment ={
         title: formFields.title,
@@ -50,7 +51,7 @@ export const onFinishUpdateForm = async (docId: string,formFields: AppointmentFo
     }
 
     try {
-        await axios.put(AppointmentURL+`/${docId}`,body);
+        await axios.put(ApiUrl+`/${docId}`,body);
         dispatch({type:'updateAppointment',payload: {id:docId,data:body}});
         message.success('Appointment Updated');
     } catch (error) {
@@ -63,15 +64,16 @@ export const onFinishUpdateForm = async (docId: string,formFields: AppointmentFo
 };
 
 
-export const onFinishFailed  = (error: any) =>{ 
+export const onFinishFailed  = (error: ValidateErrorEntity<any>): void =>{ 
+    console.log(error);
     message.error('Check Required Fields');
 };
 
 
-export const deleteAppointment = async (docId: string,dispatch: Dispatch<AppointmentAction>) =>{
+export const deleteAppointment = async (docId: string,dispatch: Dispatch<AppointmentAction>): Promise<void> =>{
     dispatch({type:'apiCallInit'});
     try{
-        await axios.delete(AppointmentURL+`/${docId}`);
+        await axios.delete(ApiUrl+`/${docId}`);
         dispatch({type:'deleteAppointment', payload: {id:docId}});
         message.success('Appointment Deleted');
     }catch(error){
@@ -82,10 +84,10 @@ export const deleteAppointment = async (docId: string,dispatch: Dispatch<Appoint
 };
 
 
-export const modifyAppointment = async (docId: string , appointment: Appointment, dispatch: Dispatch<AppointmentAction>) =>{
+export const modifyAppointment = async (docId: string , appointment: Appointment, dispatch: Dispatch<AppointmentAction>):Promise<void> =>{
     dispatch({type:'apiCallInit'});
     try{
-        await axios.put(AppointmentURL+`/${docId}`,appointment);
+        await axios.put(ApiUrl+`/${docId}`,appointment);
         dispatch({type:'updateAppointment',payload: {id: docId,data:appointment}});
         message.success('Appointment Updated');
     }catch(error){

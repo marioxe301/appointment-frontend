@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { FC, useContext, useState } from 'react';
 import { DataContext } from '../context/DataContext';
 import { Card, Typography,Space, Button, Tooltip } from 'antd';
 import { EditOutlined,DeleteOutlined} from '@ant-design/icons';
@@ -7,7 +7,7 @@ import { deleteAppointment } from '../services/FunctionHandlers';
 import { AppointmentEdit } from './AppointmentEdit';
 
 
-export const AppointmentCard = () => {
+export const AppointmentCard: FC = () => {
     const {state,dispatch} = useContext(DataContext);
     const [visible,setVisible] = useState<boolean>(false);
     return(
