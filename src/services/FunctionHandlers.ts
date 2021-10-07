@@ -7,6 +7,8 @@ import { Appointment, AppointmentFormFields, AppointmentView } from "../models/a
 import { range } from "./ArrayUtils";
 
 export const ApiUrl= "https://appointment-api-m.herokuapp.com/appointment";
+export const ClientId= "cwOJ1IMXQNLUXiY6lOuOS0yHSyPOLBp2tswhH1zeI88";
+export const ImageApiUrl="https://api.unsplash.com//photos/random";
 
 export const disableDays = (current: moment.Moment): boolean =>{
     return current.day() === 6 || current.day() === 0;
